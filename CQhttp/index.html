@@ -1,0 +1,18 @@
+<!doctype html>
+<html>
+<head>
+    <title>Socket</title>
+</head>
+<body>
+<ul id="messages"></ul>
+<div id="my-jiqiren" style="display:none"></div>
+<script src="https://cdn.socket.io/socket.io-1.2.0.js"></script>
+<script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+<script>
+    var socket = io();
+    socket.on('chat message',function (msg) {
+        window.postMessage({"info":msg},"*");
+    });
+</script>
+</body>
+</html>

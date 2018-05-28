@@ -1,0 +1,71 @@
+﻿{
+  "manifest_version": 2,
+  "name": "剪切板",
+  "description": "浏览天猫，淘宝，京东等商品页面时，自动帮用户找到商品优惠券，自动比较同款商品在淘宝/京东/亚马逊/当当/新蛋/易迅/一号店等百家商城的最低价格，提供过去7次价格变动的价格趋势，支持查询商城的优惠信息，剪切板-购物如此简单省钱哦",
+  "content_security_policy": "script-src 'self' 'unsafe-eval' https://*.cnzz.com; object-src 'self'",
+  "permissions": [
+    "*://*/*",
+    "storage",
+    "cookies",
+    "webRequest",
+    "webRequestBlocking",
+    "activeTab",
+    "tabs",
+    "alarms",
+    "notifications",
+    "contextMenus",
+    "commands",
+    "clipboardRead",
+    "clipboardWrite"
+  ],
+  "commands": {
+    "moGu-copy": {
+      "suggested_key": {
+        "default": "Alt+C"
+      },
+      "description": "复制"
+    },
+    "moGu-paste": {
+      "suggested_key": {
+        "windows": "Alt+V"
+      },
+      "description": "黏贴"
+    }
+  },
+  "background": {
+    "page": "background.html"
+  },
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*/*"
+      ],
+      "js": [
+        "js/lib/jquery.js",
+        "js/lib/slider.js",
+        "js/lib/qrcode.min.js",
+        "js/lib/postscribe.js",
+        "js/main.js"
+      ],
+      "run_at": "document_end"
+    }
+  ],
+  "browser_action": {
+    "default_icon": "icon128.png",
+    "default_title": "剪切板",
+    "default_popup": "popup.html"
+  },
+  "icons": {
+    "16": "icon16.png",
+    "48": "icon48.png",
+    "128": "icon128.png"
+  },
+  "update_url": "http://upext.chrome.360.cn/intf.php?method=ExtUpdate.query",
+  "version": "1.0.1.3",
+  "web_accessible_resources": [
+    "css/*.css",
+    "js/*.js",
+    "img/*.png",
+    "img/*.jpg"
+  ]
+}

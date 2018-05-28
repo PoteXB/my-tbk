@@ -1,0 +1,4 @@
+1.CQhttp		酷Qhttp开发node
+2.CQRobot	酷Q配合node的浏览器插件
+3.WQRobot	抓包webQQ协议的浏览器插件
+4.shear-plate	复制黏贴剪切板浏览器插件
