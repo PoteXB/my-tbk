@@ -3,7 +3,7 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 var port = process.env.PORT || 3002;
 app.get('/',function (req,res) {
-    res.sendFile(__dirname + '/index.html');
+    res.sendFile(__dirname + '/socket.html');
 });
 app.get('/get',function (req,res) {
     console.log(req.query);
