@@ -3,8 +3,8 @@ var router = express.Router();
 ApiClient = require('../index.js').ApiClient;
 router.get('/',function (req,res,next) {
     const client = new ApiClient({
-        'appkey':'24294846',
-        'appsecret':'8d59d3cda2d437940e3d21bfdce71a4d',
+        'appkey':'24935259',
+        'appsecret':'c2031f080115e8cd6569c3f878033806',
         'url':'http://gw.api.taobao.com/router/rest'
     });
     var id = req.query.id;

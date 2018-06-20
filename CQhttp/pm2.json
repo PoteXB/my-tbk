@@ -1,0 +1,22 @@
+{
+  "apps": [
+    {
+      "name": "main",
+      "script": "./bin/www",
+      "error_file": "./log/mainError.log",
+      "out_file": "./log/main.log"
+    },
+    {
+      "name": "socket",
+      "script": "socket.js",
+      "error_file": "./log/socketError.log",
+      "out_file": "./log/socket.log"
+    },
+    {
+      "name": "cqGet",
+      "script": "cqGet.js",
+      "error_file": "./log/cqGetError.log",
+      "out_file": "./log/cqGet.log"
+    }
+  ]
+}

@@ -6,8 +6,8 @@ router.get('/',function (req,res,next) {
     var arr = [];
     var errorS = 0;
     const client = new ApiClient({
-        'appkey':'24294846',
-        'appsecret':'8d59d3cda2d437940e3d21bfdce71a4d',
+        'appkey':'24935259',
+        'appsecret':'c2031f080115e8cd6569c3f878033806',
         'url':'http://gw.api.taobao.com/router/rest'
     });
     var url = req.query.url;

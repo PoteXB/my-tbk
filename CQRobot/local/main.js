@@ -149,7 +149,7 @@ function getDan() {
             var time = Date.now();
             var getH5CouNum = 0;
             var page = 1;
-            var s = `{"q":"${title}","pid":"","page":${page},"useItemCouponPage":"1","lunaUrlParam": "{'algo_sort':'mixcoupon','rank':'rank_profile:FirstRankScorer_atbh5','PS':'tk_item_score_atbh5','appBucket':'h'}"}`;
+            var s = `{"q":"${title}","pid":"mm_114987072_44144030_486458419","page":${page},"useItemCouponPage":"1","lunaUrlParam": "{'algo_sort':'mixcoupon','rank':'rank_profile:FirstRankScorer_atbh5','PS':'tk_item_score_atbh5','appBucket':'h'}"}`;
             $.ajax({
                 url:"https://acs.m.taobao.com/h5/mtop.aitaobao.item.search/7.0/",type:"get",dataType:"json",
                 data:{
