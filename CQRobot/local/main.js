@@ -82,18 +82,24 @@ function start(event) {
         console.log(info);
         title = info.message;
         userId = info.group_id;
-        if (title.match("CQ:share")) {
-            title = title.match(/url=([\s\S]*)]/)[1];
+        if (title.match("CQ:share") || title.match("https://detail.tmall.com") || title.match("https://item.taobao.com")) {
+            if (title.match("CQ:share")) {
+                title = title.match(/url=([\s\S]*)]/)[1];
+                console.log("商品链接");
+            } else {
+                console.log("含其他内容的商品链接");
+                title = title.replace(/&amp;/g,"&");
+            }
             itemId = getParam(title,"id");
-            console.log("商品链接");
             console.log(itemId);
             if (!itemId) {
                 answer(0);  //链接里面不含id
                 return;
             }
-            $.ajax({
+            var ajaxTimeoutTest = $.ajax({
                 url:"http://192.168.3.80:3000/?id=" + itemId,
                 dataType:"json",
+                timeout:3000,
                 success:function (d) {
                     if (d.results && d.results.n_tbk_item && d.results.n_tbk_item[0]) {
                         title = d.results.n_tbk_item[0].title;
@@ -104,6 +110,11 @@ function start(event) {
                 },
                 error:function () {
                     answer(3);  //链接有id请求接口出问题
+                },
+                complete:function (XMLHttpRequest,status) {
+                    if (status == 'timeout') {
+                        ajaxTimeoutTest.abort();
+                    }
                 }
             });
         } else if (title.match("有没有")) {
