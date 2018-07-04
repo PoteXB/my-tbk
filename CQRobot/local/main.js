@@ -244,7 +244,7 @@ function answer(e,k) {
         swith = 1;
         itemId = "";
     } else if (e == 1) {
-        postMsg(userId,"此链接暂无优惠券.请试试输入:标题+【你想找的商品名或关键字】,如:标题+五芳斋粽子");
+        postMsg(userId,"此链接暂无优惠券.请试试输入:有没有+【商品名或关键字】找相关优惠券,如:有没有 五芳斋粽子");
     } else if (e == 3) {
         postMsg(userId,`请稍后再来试试`);
     } else if (e == 2 || e == 4) {
