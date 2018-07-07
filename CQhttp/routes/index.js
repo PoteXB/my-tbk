@@ -15,12 +15,13 @@ router.get('/',function (req,res,next) {
             'num_iids':id
         },
         function (error,response) {
+            res.header("Access-Control-Allow-Origin","*");
+            res.writeHead(200,{'Content-Type':'text/html;charset=utf-8'});
             if (!error) {
-                res.header("Access-Control-Allow-Origin","*");
-                res.writeHead(200,{'Content-Type':'text/html;charset=utf-8'});
                 res.end(JSON.stringify(response));
             } else {
                 console.log(error);
+                res.end(JSON.stringify([]));
             }
         }
     );
