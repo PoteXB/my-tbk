@@ -5,14 +5,14 @@ const bot = new CQHttp({
     accessToken:'',
     secret:''
 });
-console.log("\n重启酷Q接受消息服务3001\n");
+// console.log("\n重启酷Q接受消息服务3001\n");
 bot.on('message',context => {
     axios.get('http://192.168.3.80:3002/get',{
         params:{
             info:context,
         }
     }).then(function () {
-        console.log("\n发送成功\n");
+        // console.log("\n发送成功\n");
     }).catch(function (err) {
     });
 });

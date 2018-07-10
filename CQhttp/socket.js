@@ -6,16 +6,16 @@ app.get('/',function (req,res) {
     res.sendFile(__dirname + '/socket.html');
 });
 app.get('/get',function (req,res) {
-    console.log(req.query);
+    // console.log(req.query);
     io.emit('chat message',req.query.info);
     res.end();
 });
 io.on('connection',function (socket) {
-    console.log("\n有人连接\n");
+    // console.log("\n有人连接\n");
     socket.on('chat message',function (msg) {
         io.emit('chat message',msg);
     });
 });
 http.listen(port,function () {
-    console.log("\n重启socket长连接3002\n");
+    // console.log("\n重启socket长连接3002\n");
 });
