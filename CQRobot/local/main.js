@@ -152,90 +152,95 @@ function postMsg(group_id,message) {
         }
     });
 }
+var getH5CouNum = 0;
+var page = 1;
 function getDan() {
     chrome.extension.sendMessage({
         name:"getCook",url:"https://www.taobao.com/",key:"_m_h5_tk"
     },function (d) {
         if (d && d[0] && d[0].value) {
-            var time = Date.now();
-            var getH5CouNum = 0;
-            var page = 1;
-            var s = `{"q":"${title}","pid":"mm_114987072_44144030_486458419","page":${page},"useItemCouponPage":"1","lunaUrlParam": "{'algo_sort':'mixcoupon','rank':'rank_profile:FirstRankScorer_atbh5','PS':'tk_item_score_atbh5','appBucket':'h'}"}`;
-            $.ajax({
-                url:"https://acs.m.taobao.com/h5/mtop.aitaobao.item.search/7.0/",type:"get",dataType:"json",
-                data:{
-                    v:"7.0",api:"mtop.aitaobao.item.search",appKey:"12574478",t:time,
-                    sign:md5(d[0].value.split("_")[0] + "&" + time + "&12574478&" + s),data:s
-                },
-                success:function (r) {
-                    if (r && r.ret && r.ret[0] && r.ret[0].match("调用成功")) {
-                        if (r && r.data && r.data.items && r.data.items.length) {
-                            var data = r.data.items;
-                            var hasSwi = 1;
-                            if (!itemId) {
-                                $.each(data,function (v,k) {
-                                    if (k.couponAmount) {
-                                        answer(4,k);    //标题查找有优惠券
-                                        hasSwi = 0;
-                                        return false;
-                                    }
-                                });
-                                if (hasSwi) {
-                                    answer(5);  //标题搜索有商品但是没优惠券
-                                }
-                                return
-                            }
-                            $.each(data,function (v,k) {
-                                if (k.nid == itemId) {
-                                    if (k.couponAmount) {
-                                        answer(2,k);    //链接查找有优惠券
-                                    } else {
-                                        answer(1);  //链接查找能匹配ID无优惠券
-                                    }
-                                    hasSwi = 0;
-                                    return false;
-                                }
-                            });
-                            if (hasSwi) {
-                                if (page == 3) {
-                                    answer(1);  //链接查找能匹配不到ID
-                                    return false
-                                } else {
-                                    page++;
-                                    getDan();
-                                }
-                            }
-                        } else {
-                            if (!itemId) {
-                                answer(5);  //标题查找无数据
-                            } else {
-                                answer(1);  //链接查找无数据
-                            }
-                        }
-                    } else {
-                        getH5CouNum++;
-                        if (getH5CouNum == 3) {
-                            if (!itemId) {
-                                answer(5);  //标题三次请求过期
-                            } else {
-                                answer(1);  //链接三次请求过期
-                            }
-                            return false
-                        } else {
-                            getDan();
-                        }
-                    }
-                },
-                error:function () {
-                    answer(3);  //淘宝优惠券接口异常
-                }
-            });
+            getH5CouNum = 0;
+            page = 1;
+            getDanBy(d)
         } else {
             $("body").append(`<iframe src="//h5.m.taobao.com/" id="douya-yangxue9527" style="display:none"></iframe>`);
             setTimeout(function () {
                 $("#douya-yangxue9527").remove();
                 getDan()
             },2000);
+        }
+    });
+}
+function getDanBy(d) {
+    var time = Date.now();
+    var s = `{"q":"${title}","pid":"mm_114987072_44144030_486458419","page":${page},"useItemCouponPage":"1","lunaUrlParam": "{'algo_sort':'mixcoupon','rank':'rank_profile:FirstRankScorer_atbh5','PS':'tk_item_score_atbh5','appBucket':'h'}"}`;
+    $.ajax({
+        url:"https://acs.m.taobao.com/h5/mtop.aitaobao.item.search/7.0/",type:"get",dataType:"json",
+        data:{
+            v:"7.0",api:"mtop.aitaobao.item.search",appKey:"12574478",t:time,
+            sign:md5(d[0].value.split("_")[0] + "&" + time + "&12574478&" + s),data:s
+        },
+        success:function (r) {
+            if (r && r.ret && r.ret[0] && r.ret[0].match("调用成功")) {
+                if (r && r.data && r.data.items && r.data.items.length) {
+                    var data = r.data.items;
+                    var hasSwi = 1;
+                    if (!itemId) {
+                        $.each(data,function (v,k) {
+                            if (k.couponAmount) {
+                                answer(4,k);    //标题查找有优惠券
+                                hasSwi = 0;
+                                return false;
+                            }
+                        });
+                        if (hasSwi) {
+                            answer(5);  //标题搜索有商品但是没优惠券
+                        }
+                        return
+                    }
+                    $.each(data,function (v,k) {
+                        if (k.nid == itemId) {
+                            if (k.couponAmount) {
+                                answer(2,k);    //链接查找有优惠券
+                            } else {
+                                answer(1);  //链接查找能匹配ID无优惠券
+                            }
+                            hasSwi = 0;
+                            return false;
+                        }
+                    });
+                    if (hasSwi) {
+                        if (page == 3) {
+                            answer(1);  //链接查找能匹配不到ID
+                            return false
+                        } else {
+                            page++;
+                            getDanBy(d);
+                        }
+                    }
+                } else {
+                    if (!itemId) {
+                        answer(5);  //标题查找无数据
+                    } else {
+                        answer(1);  //链接查找无数据
+                    }
+                }
+            } else {
+                getH5CouNum++;
+                if (getH5CouNum == 3) {
+                    if (!itemId) {
+                        answer(5);  //标题三次请求过期
+                    } else {
+                        answer(1);  //链接三次请求过期
+                    }
+                    return false
+                } else {
+                    getDanBy(d);
+                }
+            }
+        },
+        error:function () {
+            answer(3);  //淘宝优惠券接口异常
         }
     });
 }
